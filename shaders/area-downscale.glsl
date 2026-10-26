@@ -1,3 +1,18 @@
+//!PARAM allow_upscale
+//!DESC Allow area upscaling (0 = downscale only [default], 1 = also upscale)
+//!TYPE int
+//!MINIMUM 0
+//!MAXIMUM 1
+0
+
+//!DESC Linear-light Area Scaler (Integer Coordinates)
+//!HOOK MAIN
+//!BIND HOOKED
+//!WIDTH OUTPUT.w HOOKED.w < allow_upscale + ! ! OUTPUT.w HOOKED.w - * HOOKED.w +
+//!HEIGHT OUTPUT.h HOOKED.h < allow_upscale + ! ! OUTPUT.h HOOKED.h - * HOOKED.h +
+//!WHEN allow_upscale OUTPUT.w HOOKED.w = ! OUTPUT.h HOOKED.h = ! + * allow_upscale ! OUTPUT.w HOOKED.w < OUTPUT.h HOOKED.h < + * +
+
+
 vec4 hook() {
     uvec2 src_size = uvec2(HOOKED_size);
     uvec2 target = uvec2(target_size);
